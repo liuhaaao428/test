@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Access-Control-Allow-Origin" content="*" />
+    <title>PAGE OF SHOW</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.15.0/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+    <!--<SCRIPT>
+
+        function f() {
+            c = Math.random();
+            document.getElementById("demo").innerHTML=c;
+        }
+    </SCRIPT>-->
+
+    <div class="container" >
+        <h1 >PAGE OF SHOW</h1>
+        <h4 id="dem">s</h4>
+            <table class="table table-striped" >
+                <thead>
+                <tr>
+                    <th>id</th>
+                    <th>username</th>
+                    <th>password</th>
+                    <th>mobile</th>
+                    <th>email</th>
+                    <th>sex</th>
+                    <th>nickname</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+           </table>
+    </div>
+
+    <!--<div class="container">
+        <button onmouseover="f()" type="button" class="btn btn-secondary btn-lg"><a id="demo" href="2.html"></a></button>
+    </div>-->
+
+
+    <script>
+
+
+
+
+
+
+        $(function(){
+        $.ajax({
+            url:'http://localhost:8080/show/',
+            type:'post',
+            // beforeSend:function(xhr){
+            //     xhr.withCredentials=true;
+            // },
+            data:{curPage:1},
+            dataType:'json',
+            // jsonp:'jsonp_callback',
+            // jsonpCallback:"flightHandler",
+
+            success:function (data){
+                document.getElementById("dem").innerHTML="success"+data['ShowListJson'];
+                //DATA=data['ShowListJson']
+
+                DATA=[{"id":1,"username":"admin","password":"123456","mobile":"13918891675","email":"mmc@163.com","sex":"男","nickname":"管理员"},{"id":2,"username":"lisi2","password":"1234562","mobile":"13918891675","email":"mmc@163.com","sex":"m","nickname":"lisi1"},{"id":3,"username":"lisi3","password":"1234563","mobile":"13918891675","email":"mmc@163.com","sex":"m","nickname":"lisi1"},{"id":4,"username":"lisi4","password":"1234564","mobile":"13918891675","email":"mmc@163.com","sex":"m","nickname":"lisi1"},{"id":5,"username":"lisi5","password":"1234565","mobile":"13918891675","email":"mmc@163.com","sex":"m","nickname":"lisi1"},{"id":6,"username":"lisi6","password":"1234566","mobile":"13918891675","email":"mmc@163.com","sex":"m","nickname":"lisi1"},{"id":7,"username":"lisi7","password":"1234567","mobile":"13918891675","email":"mmc@163.com","sex":"m","nickname":"lisi1"},{"id":8,"username":"lisi8","password":"1234568","mobile":"13918891675","email":"mmc@163.com","sex":"m","nickname":"lisi1"},{"id":9,"username":"lisi9","password":"1234569","mobile":"13918891675","email":"mmc@163.com","sex":"m","nickname":"lisi1"},{"id":10,"username":"lisi10","password":"12345610","mobile":"13918891675","email":"mmc@163.com","sex":"m","nickname":"lisi1"}]
+                for(var i=0 ; i<DATA.lenth ; i++)
+                {
+                   // DATA=data[ShowListJson]
+                    str ='<td>'+DATA[i].id+'</td>'+'<td>'+DATA[i].username+'</td>'+'<td>'+DATA[i].password+'</td>'+'<td>'+DATA[i].mobile+'</td>'+'<td>'+DATA[i].email+'</td>'+'<td>'+DATA[i].sex+'</td>'+'<td>'+DATA[i].nickname+'</td>'
+                    $("tbody").append('<tr>'+str+'</tr>')
+                }
+
+
+            },
+            error:function (data){
+                return "ajax error!"
+            }
+        })
+
+    })
+    </script>
+
+   <!-- <script>
+        $(function () {
+            $.ajax({
+                url:
+            })
+        })
+    </script>-->
+
+
+<script>
+    function obj2string(o){
+
+        var r=[];
+        if(typeof o=="string"){
+            return "\""+o.replace(/([\'\"\\])/g,"\\$1").replace(/(\n)/g,"\\n").replace(/(\r) /g,"\\r").replace(/(\t) /g,"\\t")+"\"";
+        }
+        if(typeof o=="object"){
+            if(!o.sort){
+                for(var i in o){
+                    r.push(i+":"+obj2string(o[i]));
+                }
+                if(!!document.all&&!/^\n?function\s*toString\(\)\s*\{\n?\s*\[native code\]\n?\s*\}\n?\s*$/.test(o.toString)){
+                    r.push("toString:"+o.toString.toString());
+                }
+                r="{"+r.join()+"}";
+            }else{
+                for(var i=0;i<o.length;i++){
+                    r.push(obj2string(o[i]))
+                }
+                r="["+r.join()+"]";
+            }
+            return r;
+        }
+        return o.toString();
+    }
+</script>
+
+</body>
+</html>

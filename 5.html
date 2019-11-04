@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>layuilearning</title>
+    <script type="application/javascript" src="layui/layui.js"></script>
+    <link rel="stylesheet" href="layui/css/layui.css">
+</head>
+<body>
+<h1>我是layui</h1>
+<table id="demo" lay-filter="test"></table>
+
+<script >
+    layui.use('table',function () {
+        var table = layui.table;
+        table.render({
+            elem: '#demo'
+            ,height: 312
+            ,url: 'http://localhost:8080/layui/'
+            ,page: true
+            ,cols: [[
+                {field: 'id', title: 'ID', width: 180,sort: true,fixed: 'left'}
+                ,{field: 'username', title: '用户名', width:180}
+                ,{field: 'password', title: '密码', width:180}
+                ,{field: 'mobile', title: '电话', width:180}
+                ,{field: 'email', title: '邮箱', width:180}
+                ,{field: 'sex', title: '性别', width:180}
+                ,{field: 'nickname', title: '昵称', width:80}
+            ]]
+        });
+    });
+</script>
+
+
+</body>
+</html>

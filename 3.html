@@ -20,7 +20,7 @@
         }
     </SCRIPT>-->
 
-    <div class="container" >
+    <div  class="container" >
         <h1 >PAGE OF SHOW</h1>
         <h4 id="dem">s</h4>
             <table class="table table-striped" >
@@ -39,44 +39,56 @@
 
                 </tbody>
            </table>
+        <ul  id="pagec" class="pagination">
+        </ul>
     </div>
 
     <!--<div class="container">
         <button onmouseover="f()" type="button" class="btn btn-secondary btn-lg"><a id="demo" href="2.html"></a></button>
     </div>-->
 
+    <!--<div class="container">
+        <ul  id="pagec" class="pagination">
+            <li  class="page-item"><a id="indexpage" class="page-link" href="#">Previous</a> </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item active"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+        </ul>
+    </div>-->
+
+
 
     <script>
 
 
+        $(getPage=function (pageN=1){
 
 
-
-
-        $(function(){
         $.ajax({
             url:'http://localhost:8080/show/',
             type:'post',
             // beforeSend:function(xhr){
             //     xhr.withCredentials=true;
             // },
-            data:{curPage:1},
+            data:{curPage:pageN},
             dataType:'json',
             // jsonp:'jsonp_callback',
             // jsonpCallback:"flightHandler",
 
             success:function (data){
-                document.getElementById("dem").innerHTML="success"+data['ShowListJson'];
-                //DATA=data['ShowListJson']
+                // document.getElementById("dem").innerHTML="success"+JSON.parse(data['PageInfo']).curPage;
+                DATA=JSON.parse(data['ShowListJson'])
 
-                DATA=[{"id":1,"username":"admin","password":"123456","mobile":"13918891675","email":"mmc@163.com","sex":"男","nickname":"管理员"},{"id":2,"username":"lisi2","password":"1234562","mobile":"13918891675","email":"mmc@163.com","sex":"m","nickname":"lisi1"},{"id":3,"username":"lisi3","password":"1234563","mobile":"13918891675","email":"mmc@163.com","sex":"m","nickname":"lisi1"},{"id":4,"username":"lisi4","password":"1234564","mobile":"13918891675","email":"mmc@163.com","sex":"m","nickname":"lisi1"},{"id":5,"username":"lisi5","password":"1234565","mobile":"13918891675","email":"mmc@163.com","sex":"m","nickname":"lisi1"},{"id":6,"username":"lisi6","password":"1234566","mobile":"13918891675","email":"mmc@163.com","sex":"m","nickname":"lisi1"},{"id":7,"username":"lisi7","password":"1234567","mobile":"13918891675","email":"mmc@163.com","sex":"m","nickname":"lisi1"},{"id":8,"username":"lisi8","password":"1234568","mobile":"13918891675","email":"mmc@163.com","sex":"m","nickname":"lisi1"},{"id":9,"username":"lisi9","password":"1234569","mobile":"13918891675","email":"mmc@163.com","sex":"m","nickname":"lisi1"},{"id":10,"username":"lisi10","password":"12345610","mobile":"13918891675","email":"mmc@163.com","sex":"m","nickname":"lisi1"}]
-                for(var i=0 ; i<DATA.lenth ; i++)
-                {
-                   // DATA=data[ShowListJson]
-                    str ='<td>'+DATA[i].id+'</td>'+'<td>'+DATA[i].username+'</td>'+'<td>'+DATA[i].password+'</td>'+'<td>'+DATA[i].mobile+'</td>'+'<td>'+DATA[i].email+'</td>'+'<td>'+DATA[i].sex+'</td>'+'<td>'+DATA[i].nickname+'</td>'
-                    $("tbody").append('<tr>'+str+'</tr>')
+                //DATA=[{"id":1,"username":"admin","password":"123456","mobile":"13918891675","email":"mmc@163.com","sex":"男","nickname":"管理员"},{"id":2,"username":"lisi2","password":"1234562","mobile":"13918891675","email":"mmc@163.com","sex":"m","nickname":"lisi1"},{"id":3,"username":"lisi3","password":"1234563","mobile":"13918891675","email":"mmc@163.com","sex":"m","nickname":"lisi1"},{"id":4,"username":"lisi4","password":"1234564","mobile":"13918891675","email":"mmc@163.com","sex":"m","nickname":"lisi1"},{"id":5,"username":"lisi5","password":"1234565","mobile":"13918891675","email":"mmc@163.com","sex":"m","nickname":"lisi1"},{"id":6,"username":"lisi6","password":"1234566","mobile":"13918891675","email":"mmc@163.com","sex":"m","nickname":"lisi1"},{"id":7,"username":"lisi7","password":"1234567","mobile":"13918891675","email":"mmc@163.com","sex":"m","nickname":"lisi1"},{"id":8,"username":"lisi8","password":"1234568","mobile":"13918891675","email":"mmc@163.com","sex":"m","nickname":"lisi1"},{"id":9,"username":"lisi9","password":"1234569","mobile":"13918891675","email":"mmc@163.com","sex":"m","nickname":"lisi1"},{"id":10,"username":"lisi10","password":"12345610","mobile":"13918891675","email":"mmc@163.com","sex":"m","nickname":"lisi1"}]
+                for(i in DATA) {
+                    // DATA=data[ShowListJson]
+                    str = '<td>' + DATA[i].id + '</td>' + '<td>' + DATA[i].username + '</td>' + '<td>' + DATA[i].password + '</td>' + '<td>' + DATA[i].mobile + '</td>' + '<td>' + DATA[i].email + '</td>' + '<td>' + DATA[i].sex + '</td>' + '<td>' + DATA[i].nickname + '</td>'
+                    $("tbody").append('<tr>' + str + '</tr>')
+
                 }
-
+                pageData = JSON.parse(data['PageInfo'])
+                pageController(pageData)
 
             },
             error:function (data){
@@ -87,13 +99,38 @@
     })
     </script>
 
-   <!-- <script>
-        $(function () {
-            $.ajax({
-                url:
-            })
-        })
-    </script>-->
+    <script>
+        //$("#indexpage").click(getPage(1))
+        initPage=function(pageN){
+            $("tbody").empty()
+            $("#pagec").empty()
+            getPage(pageN)
+        }
+         initPage(1)
+    </script>
+
+
+    <script>
+        function pageController(pageData) {
+
+            //document.getElementById("dem").innerHTML="success"+JSON.parse(data['PageInfo']).curPage;
+            if (pageData.curPage == 2) {
+                $("#pagec").append('<li class="page-item" ><a class="page-link" href="#" onclick="initPage(pageData.curPage-1)">Previous</a></li>' +
+                    '<li class="page-item"><a class="page-link" href="#" onclick="initPage(pageData.curPage-1)">' + Number(pageData.curPage - 1) + '</a></li>' +
+                    '<li class="page-item active"><a class="page-link" href="#")">' + pageData.curPage+ '</a></li>'
+                )
+                //if(pageData.)
+
+            }
+            else if(pageData.curPage == 1)
+            {
+                $("#pagec").append('<li class="page-item disabled" ><a class="page-link" href="#" )">Previous</a></li>' +
+                    '<li class="page-item active"><a class="page-link" href="#" >' + pageData.curPage  + '</a></li>' +
+                    '<li class="page-item "><a class="page-link" href="#" onclick="initPage(pageData.curPage+1)">' + Number(pageData.curPage + 1) + '</a></li>'
+                )
+            }
+        }
+    </script>
 
 
 <script>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>this is img show</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
+    <script type="application/javascript" src="layui/layui.js"></script>
+</head>
+<body>
+
+<div class="layui-bg-green "><h1 style="text-align: center">img show</h1></div>
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: auto">
+    <legend>layui img show</legend>
+</fieldset>
+ <div style="padding: 30px
+ ;background-color: #4E5465;">
+     <div class="layui-row layui-col-space15">
+         <div class="layui-col-md6">
+             <div class="layui-card">
+                 <div class="layui-card-header">card sample</div>
+                 <div class="layui-card-body">hard life, give me five<br>bored or work? what is your choise</div>
+             </div>
+         </div>
+         <div class="layui-col-md6">
+             <div class="layui-card">
+                 <div class="layui-card-header">upload some images and show them here</div>
+                 <div class="layui-card-body">there are so many modules in layui, maybe you need to have different memory than ordinary people as a front-end developer</div>
+             </div>
+         </div>
+         <div class="layui-col-md6">
+             <div class="layui-card">
+                 <div class="layui-card-header">what attracted you</div>
+                 <div class="layui-card-body">two month ago, I made two plans for the Autumn recruitment. Plan A is that make my best to join a large company , work hard but raise more money. Plan B is in opposite direction,
+                 not very small company and not very slow salary in my hometown.</div>
+             </div>
+         </div>
+         <div class="layui-col-md6">
+             <div class="layui-card">
+                 <div class="layui-card-header">now</div>
+                 <div class="layui-card-body">what the company i had joined attracted me is harmony and comfortable<br> <br> <br></div>
+             </div>
+         </div>
+     </div>
+ </div>
+
+
+<!--<div class="layui-card" >
+    <div class="layui-card-header">please press the button to upload image</div>
+    <div class="layui-card-body" id="img"></div>
+</div>-->
+<div class="layui-upload-button">
+    <button type="button" class="layui-btn" id="upload">upload</button>
+    <div class="layui-upload-img" id="demo1">
+        <p id="demoText"></p>
+    </div>
+</div>
+<div class="layui-progress layui-progress-big" layui-filter="demo" lay-showPercent="true">
+    <div class="layui-progress-bar layui-bg-orange" lay-percent="0%"></div>
+</div>
+<div class="layui-card">
+    <div class="layui-card-header"></div>
+<!--    <div class="layui-card-body" id="uploadsuccess"><img src=http://localhost:8080/9c5230b9c78640d7bc5c548da433e206.png></div>-->
+    <div class="layui-card-body" id="uploadsuccess"></div>
+</div>
+<script>
+    layui.use('upload',function () {
+        var $ = layui.jquery
+            ,upload = layui.upload;
+        var uploadInst = upload.render({
+            elem:'#upload'
+            ,url:'http://localhost:8080/layui/imgupload'
+            /*,before:function () {
+                //预览本地文件示例
+            }*/
+            ,before: function(obj){ //obj参数包含的信息，跟 choose回调完全一致，可参见上文。
+                layer.load(); //上传loading
+            }
+            ,progress: function(n){
+                var percent = n + '%' //获取进度百分比
+                layui.use('element', function(){
+                    var element = layui.element;
+                    element.progress('demo', percent); //可配合 layui 进度条元素使用
+                });
+
+            }
+            ,done:function (res) {
+                layer.closeAll('loading');
+                if(res.code >0){
+                    return layer.msg('upload failed')
+                }
+                else {
+                     document.getElementById("uploadsuccess").innerHTML="<img src="+res.data.src+">"
+                    //document.getElementById("uploadsuccess").innerHTML("<img src="+"http://localhost:8080/9c5230b9c78640d7bc5c548da433e206.png"+">")
+                    return layer.msg('success')
+                }
+            }
+            ,error:function () {
+                var demoText = $('demoText');
+                demoText.html('<span style="color:#FF5722;">upload failed</span><a class="layui-btn layui-btn-xs demo-reload">retry</a>');
+                demoText.find('.demo-reload').on('click',function () {
+                    uploadInst.upload();
+                });
+            }
+        });
+    })
+</script>
+</body>
+</html>
